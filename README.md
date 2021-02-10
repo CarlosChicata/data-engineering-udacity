@@ -13,7 +13,7 @@ This project contain all codes using in workspace of nanodegree.
 ## Projects
 - [X] Data modeling with Postgresql
 - [X] Data modeling with Cassandra
-- [ ] Data Warehouse
+- [X] Data Warehouse
 - [ ] Data lake
 - [ ] Data pipeline
 - [ ] Capstone
