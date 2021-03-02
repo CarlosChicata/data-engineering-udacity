@@ -28,16 +28,27 @@ def process_song_data(spark, input_data, output_data):
     df = spark.read.json(song_data)
     
     # extract columns to create songs table
-    songs_table = df.select('song_id', 'title', 'artist_id', 'year', 'duration')
+    songs_table = df.select('song_id', 'title', 'artist_id', 'year', 'duration').dropDuplicates()
+    
+    songs_table.createOrReplaceTempView('songs')
     
     # write songs table to parquet files partitioned by year and artist
-    ##songs_table
-
+    songs_table.write.partitionBy('year', 'artist_id') \
+                     .parquet(os.path.join(output_data, 'songs/songs.parquet'), 'overwrite')
+    
     # extract columns to create artists table
-    ##artists_table = 
+    artists_table = df.select('artist_id', 'artist_name', 'artist_location',
+                              'artist_latitude', 'artist_longitude') \
+                      .withColumnRenamed('artist_name', 'name') \
+                      .withColumnRenamed('artist_location', 'location') \
+                      .withColumnRenamed('artist_latitude', 'latitude') \
+                      .withColumnRenamed('artist_longitude', 'longitude') \
+                      .dropDuplicates()
+    
+    artists_table.createOrReplaceTempView('artists')
     
     # write artists table to parquet files
-    ##artists_table
+    artists_table.write.parquet(os.path.join(output_data, 'artists/artists.parquet'), 'overwrite')
 
 
 def process_log_data(spark, input_data, output_data):
@@ -86,9 +97,8 @@ def main():
     output_data = ""
     
     process_song_data(spark, input_data, output_data)    
-    #process_log_data(spark, input_data, output_data)
+    process_log_data(spark, input_data, output_data)
 
 
 if __name__ == "__main__":
     main()
-
