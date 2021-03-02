@@ -4,6 +4,7 @@ import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import udf, col
 from pyspark.sql.functions import year, month, dayofmonth, hour, weekofyear, date_format, dayofweek
+from pyspark.sql.functions import monotonically_increasing_id
 
 
 config = configparser.ConfigParser()
@@ -98,13 +99,35 @@ def process_log_data(spark, input_data, output_data):
                                           'time/time.parquet'), 'overwrite')
 
     # read in song data to use for songplays table
-    ##song_df = 
+    song_df = spark.read.json(os.path.join(input_data, "song_data/A/A/A/*.json"))
 
     # extract columns from joined song and log datasets to create songplays table 
-    ##songplays_table = 
+    actions_df = actions_df.alias('log_df')
+    song_df = song_df.alias('song_df')
+    joined_df = actions_df.join(song_df, 
+                                col('log_df.artist') == col('song_df.artist_name'), 
+                                'inner')
+
+    songplays_table = joined_df.select(
+            col('log_df.datetime').alias('start_time'),
+            col('log_df.userId').alias('user_id'),
+            col('log_df.level').alias('level'),
+            col('song_df.song_id').alias('song_id'),
+            col('song_df.artist_id').alias('artist_id'),
+            col('log_df.sessionId').alias('session_id'),
+            col('log_df.location').alias('location'), 
+            col('log_df.userAgent').alias('user_agent'),
+            year('log_df.datetime').alias('year'),
+            month('log_df.datetime').alias('month')) \
+            .withColumn('songplay_id', monotonically_increasing_id())
 
     # write songplays table to parquet files partitioned by year and month
-    ##songplays_table
+    songplays_table.createOrReplaceTempView('songplays')
+
+    songplays_table.write.partitionBy(
+        'year', 'month').parquet(os.path.join(output_data,
+                                 'songplays/songplays.parquet'),
+                                 'overwrite')
 
 
 def main():
