@@ -23,6 +23,17 @@ def create_spark_session():
 
 
 def process_song_data(spark, input_data, output_data):
+    """
+    Process the logs files was extracted from S3 to generate  
+    the songs and artists tables, those tables will store into S3.
+    ----------
+    Param:
+        spark: A spark session instance.
+        input_data: S3 direction contain data
+        out_data: S3 direction to save processed data
+    Return:
+        None
+    """
     # get filepath to song data file
     song_data = os.path.join(input_data, "song_data/*/*/*/*.json")
     # read song data file
@@ -49,6 +60,18 @@ def process_song_data(spark, input_data, output_data):
 
 
 def process_log_data(spark, input_data, output_data):
+    """
+    Process the logs files was extracted from S3 to generate  
+    the users, time and songplays tables, 
+    those tables will store into S3.
+    ----------
+    Param:
+        spark: A spark session instance.
+        input_data: S3 direction contain data
+        out_data: S3 direction to save processed data
+    Return:
+        None
+    """
     # get filepath to log data file
     log_data = os.path.join(input_data, "log_data/*/*/*.json")
 
