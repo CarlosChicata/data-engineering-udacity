@@ -1,4 +1,4 @@
-# data-engineering-udacity
+# Data engineering projects from udacity
 
 ## General Purpose
 Contain all implemented projects i submitted when i was coursing the 'data engineering' nanodegree udacity's.
