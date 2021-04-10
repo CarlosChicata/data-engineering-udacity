@@ -26,7 +26,7 @@ the main objective is to evolve the data reception and processing system for mus
 - [X] Data modeling with Cassandra
 - [X] Data Warehouse
 - [X] Data lake
-- [ ] Data pipeline
+- [x] Data pipeline
 - [ ] Capstone
 
 ## Info
