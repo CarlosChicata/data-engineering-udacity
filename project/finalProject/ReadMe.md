@@ -19,9 +19,24 @@ the following sections explain more details about how you need to implement this
 ## Reports
 The analytics team need following reports:
 
-1. **Roadmap Report**: Ver como fue el rendimiento de las rutas durante este mes.
-2. **Agent Report**: Check performance of agents affiliated their.
-4. **Top delivery Report**: Saber cuales compañias envian mas pedidos por un mes consultado.
+### Roadmap Report
+working
+
+### Agent Report
+Check performance of agents affiliated their. this report need following columns in the month. 
+
+| Column name  | Description |
+|--------------|---------------|
+| Agent ID                      | ID of agent in system |
+| Complete Name                 | Full name with lastname of agent |
+| completed roadmap             | Number of completed roadmap |
+| Assigned roadmap              | Number of assigned roadmap |
+| Disconnected Day              | Number of day doesn't connected |
+| Average percentage of roadmap | Average percentage of roadmap per month |
+
+### Top delivery Report
+Which is the company that sends the most orders per month and quarter in the year.
+
 
 ## Bad data
 The format of bad datas is:
