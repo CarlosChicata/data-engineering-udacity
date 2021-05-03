@@ -37,6 +37,14 @@ Check performance of agents affiliated their. this report need following columns
 ### Top delivery Report
 Which is the company that sends the most orders per month and quarter in the year.
 
+| Column name  | Description |
+|--------------|---------------|
+| Name enterprise          | Name of enterprise |
+| Counting of shipment     | Number of shipments sent from enterprise |
+| Correct format shipments | Number of validated shipments don't need correct it |
+| Wrong format shipments   | Number of invalidated shipments need correct it |
+
+
 
 ## Bad data
 The format of bad datas is:
