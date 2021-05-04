@@ -1,0 +1,25 @@
+Arequipa;Peru;Pe;spa
+Lima;Peru;Pe;spa
+Trujillo;Peru;Pe;spa
+Cuzco;Peru;Pe;spa
+Iquitos;Peru;Pe;spa
+Chiclayo;Peru;Pe;spa
+Pisco;Peru;Pe;spa
+Piura;Peru;Pe;spa
+Callao;Peru;Pe;spa
+Tumbes;Peru;Pe;spa
+Huaral;Peru;Pe;spa
+Puerto Maldonado;Peru;Pe;spa
+Moquegua;Peru;Pe;spa
+Ilo;Peru;Pe;spa
+Tacna;Peru;Pe;spa
+Tarapoto;Peru;Pe;spa
+Huacho;Peru;Pe;spa
+Puno;Peru;Pe;spa
+Juliaca;Peru;Pe;spa
+Huancayo;Peru;Pe;spa
+Chimbote;Peru;Pe;spa
+Cerro de pasco;Peru;Pe;spa
+Catacaos;Peru;Pe;spa
+Yurimaguas;Peru;Pe;spa
+Lambayeque;Peru;Pe;spa
