@@ -71,6 +71,13 @@ The format of bad datas is JSON format. the structure is:
 * The data is generated for this project; so they are faked. they do not belong to any company or public domain.
 
 -----------
+
+## Structure of project
+This is structure of project:
+
+1. **generate_data folder**: contain all data need to generate to generator scripts. Those are:
+
+
 ## Models of datawarehouse
 
 
