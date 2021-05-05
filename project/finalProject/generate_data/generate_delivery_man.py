@@ -8,8 +8,8 @@ Methods:
 Utility methods
     - user_name_list: create manager to assign first name and
         last name of agents.
-    - assign_entity: assign values of other table into agents using
-        specified field.
+    - assign_entity: assign values of other DB into agents using
+        specified fields.
 '''
 from datetime import timedelta, datetime
 from random import randint, shuffle

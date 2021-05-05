@@ -3,10 +3,10 @@ Purpose:
     generate all availables cities in "Enviolo!" startup.
 
 Methods:
-
-
+    - generate_cities: generate all cities into DB
 Utility methods
-
+    - generate_cities_manager: assign values for  cities in
+        specified fields.
 '''
 from datetime import timedelta, datetime
 from random import randint, shuffle
@@ -68,5 +68,8 @@ def generate_cities(start_date, end_date, number):
 
     return cities_list
 
+'''
+testing
 
 print(generate_cities(datetime(2019, 4, 4, 4, 4, 4), datetime(2020, 4, 4, 4, 4, 4), 10))
+'''
