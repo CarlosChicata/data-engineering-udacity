@@ -8,7 +8,7 @@ Utility methods
     - generate_cities_manager: assign values for  cities in
         specified fields.
 '''
-from datetime import timedelta, datetime
+from datetime import timedelta
 from random import randint, shuffle
 from os import path, getcwd
 
