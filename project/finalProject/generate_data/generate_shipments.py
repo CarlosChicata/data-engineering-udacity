@@ -3,9 +3,12 @@ Purpose:
     generate all registered shipment in "Enviolo!" startup.
 
 Methods:
-    -
+    - generate_shipment: generate a shipment data.
 Utility methods
-
+    - assign_entity: assign values of other DB into agents using
+        specified fields.
+    - generate_tracking: generate tracking value into shipments.
+    - generate_product: generate a list of name of products to send.
 '''
 from datetime import timedelta, datetime
 from random import randint, shuffle
@@ -119,7 +122,7 @@ def generate_shipment(start_date, end_date, number, start_id,
 
     return shipment_list
 
-
+'''
 enterprise_client = [
     ("nestle", 0.25),
     ("VTEX", 0.30),
@@ -134,4 +137,5 @@ print(generate_shipment(datetime(2020, 1, 1, 0, 0, 0),
                   datetime(2021, 1, 1, 0, 0, 0), 1000,  0,
                   city_list, city_default, enterprise_client,
                   enterprise_default))
+'''
 
