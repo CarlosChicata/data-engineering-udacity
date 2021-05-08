@@ -39,7 +39,7 @@ def assign_entity(agent_list, entities_percentage, default_value,
     '''
     associate agents into entities based in percentage of members per entities.
     Params:
-     - agent_list (list) : list of agents.
+     - agent_list (list) : list of shipment.
      - entities_percentage (tuple list): entities will associated in agents. pair type
           float-dict
      - default_value (dict) : value default if need to complete to avoid null cell
@@ -84,16 +84,16 @@ def generate_shipment(start_date, end_date, number, start_id,
     '''
         generate a list of shipments .
     Params:
-	 - start_date (datetime): minimum datetime to register agent in system.
+	 - start_date (datetime): minimum datetime to create shipment in system.
 	      this is required
-	 - end_data (datetime): maximum datetime to register agent in system.
+	 - end_data (datetime): maximum datetime to create shipment in system.
 	      this is required.
 	 - number (int): number of agent will generated. this is required.
 	 - start_id (int) : number start of Sequential ID.
 	 - associated_city (tuple list) : percentagae vehicle need use by agents.
 	      this is required.
      Return:
-      - agents (Array of dict): contain all agents.
+      - agents (Array of dict): contain all shipment.
     '''
     shipment_list = []
     package_size = ['ss', 's', 'm', 'l', 'xl', 'xxl']
