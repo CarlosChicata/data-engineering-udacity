@@ -71,8 +71,8 @@ def assign_entity(agent_list, entities_percentage, default_value,
 
 
 def generate_agent(start_date, end_date, number, start_id,
-                   associated_enterprise, associated_vehicle, associated_city,
-                   default_enterprise, default_vehicle, default_city):
+                   associated_vehicle, associated_city,
+                   default_vehicle, default_city):
     '''
     generate a list of agents to  delivery shipments.
     Params:
@@ -118,8 +118,6 @@ def generate_agent(start_date, end_date, number, start_id,
            'remove': False,
         })
 
-    agent_list = assign_entity(agent_list, associated_enterprise,
-                            default_enterprise, 'enterprise')
     agent_list = assign_entity(agent_list, associated_vehicle,
                            default_vehicle, 'vehicle')
     agent_list = assign_entity(agent_list, associated_city, default_city,
