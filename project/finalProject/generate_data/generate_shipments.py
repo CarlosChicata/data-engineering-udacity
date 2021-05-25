@@ -78,6 +78,98 @@ def generate_product():
     return product_manager
 
 
+def cancelled_status(created):
+    '''
+    generate status, historial and updated datetime for "CANCELED" status
+    of shipment.
+    Params:
+        - created_datetime (datetime) : datetime to create a shipment.
+    Return:
+        - current_status: (string): a current status of shipment.
+        - historial_status (list of dict): list of prevoiious status of
+            shipment.
+        - updated (datetime) : a last datetime to modify shipment.
+    '''
+    cancelled_date = created.timestamp() + randint(6000, 21600000)
+    cancelled_date = datetime.fromtimestamp(cancelled_date)
+    historial = [{
+        'status': 'NEW',
+        'created': created
+    }, {
+        'status': 'CANCELLED',
+        'created': cancelled_date
+    }]
+    return 'CANCELLED', historial, cancelled_date
+
+
+def completed_status(created):
+    '''
+    generate status, historial and updated datetime for "COMPLETED" status
+    of shipment.
+    Params:
+        - created_datetime (datetime) : datetime to create a shipment.
+    Return:
+        - current_status: (string): a current status of shipment.
+        - historial_status (list of dict): list of prevoiious status of
+            shipment.
+        - updated (datetime) : a last datetime to modify shipment.
+    '''
+    completed = created.timestamp()
+    range_time = randint(500000, 12000000)
+    planned = datetime.timestamp(completed + range_time)
+    range_time += randint(12000, 300000)
+    assigned = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 6000000)
+    picking = datetime.timestamp(completed + range_time)
+    range_time += randint(600000, 12000000)
+    delivering = datetime.timestamp(completed + range_time)
+    range_time += randint(6000, 120000)
+    delivered = datetime.timestamp(completed + range_time)
+    historial = [{
+        'status': 'NEW',
+        'created': created
+    }, {
+        'status': 'PLANNED',
+        'created': planned
+    }, {
+        'status': 'ASSIGNED',
+        'created': assigned
+    }, {
+        'status': 'PICKING',
+        'created': picking,
+    }, {
+        'status': 'DELIVERING',
+        'created': delivering
+    }, {
+        'status': 'COMPLETED',
+        'created': delivered
+    }]
+    return 'COMPLETED', historial, delivered
+
+
+def generate_status_historial(created_datetime):
+    '''
+    generate status, historial and updated datetime fields of shipment
+    Params:
+        - created_datetime (datetime) : datetime to create a shipment.
+    Return:
+        - current_status: (string): a current status of shipment.
+        - historial_status (list of dict): list of prevoiious status of
+            shipment.
+        - updated (datetime) : a last datetime to modify shipment.
+    '''
+    type_decision = randint(0, 100)
+
+    if 0 < type_decision < 10:
+        return cancelled_status(created_datetime)
+    elif 11 < type_decision < 65:
+        return completed_status(created_datetime)
+    else:
+        margen_time = randint(0, 3)
+        time_intents = randint(1, 3)
+        return failed_status(created_datetime, margen_time, time_intents)
+
+
 def generate_shipment(start_date, end_date, number, start_id,
                    associated_city, default_city, associated_enterprise,
                    default_enteprise):
@@ -103,8 +195,11 @@ def generate_shipment(start_date, end_date, number, start_id,
 
     for index_num in range(number):
         diff_range = timedelta(days=randint(0, day_range.days)) # mejorar tiempo
+        created_datetime = (start_date + diff_range).strftime("%m/%d/%YT%H:%M:%S")
+        current_status, historial_status, last_update = generate_status_historial(created_datetime)
         shipment_list.append({
-            'created': (start_date + diff_range).strftime("%m/%d/%YT%H:%M:%S"),
+            'created': created_datetime,
+            'updated': last_update,
             'tracking': generate_tracking(),
             'id':  start_id+index_num,
             'product': {
@@ -112,7 +207,9 @@ def generate_shipment(start_date, end_date, number, start_id,
                 'quantity': randint(1, 50),
                 'package_size': package_size[randint(0, len(package_size)-1)]
             },
-            'type': type_service[randint(0, len(type_service)-1)]
+            'type': type_service[randint(0, len(type_service)-1)],
+            'historial_status': historial_status,
+            'status': current_status
         })
 
     shipment_list = assign_entity(shipment_list, associated_city,
