@@ -89,6 +89,7 @@ def cancelled_status(created):
         - historial_status (list of dict): list of prevoiious status of
             shipment.
         - updated (datetime) : a last datetime to modify shipment.
+        - planned_dates (list of datetime) : list of datetime of planned event. default None
     '''
     cancelled_date = created.timestamp() + randint(6000, 21600000)
     cancelled_date = datetime.fromtimestamp(cancelled_date)
@@ -113,6 +114,7 @@ def completed_status(created):
         - historial_status (list of dict): list of prevoiious status of
             shipment.
         - updated (datetime) : a last datetime to modify shipment.
+        - planned_dates (list of datetime) : list of datetime of planned event
     '''
     completed = created.timestamp()
     range_time = randint(500000, 12000000)
@@ -154,6 +156,18 @@ def completed_status(created):
 
 
 def returned_status(created):
+    '''
+    generate status, historial and updated datetime for "RETURNED" status
+    of shipment.
+    Params:
+        - created_datetime (datetime) : datetime to create a shipment.
+    Return:
+        - current_status: (string): a current status of shipment.
+        - historial_status (list of dict): list of prevoiious status of
+            shipment.
+        - updated (datetime) : a last datetime to modify shipment.
+        - planned_dates (list of datetime) : list of datetime of planned event. default None
+    '''
     completed = created.timestamp()
     range_time = randint(500000, 12000000)
     planned = datetime.timestamp(completed + range_time)
@@ -195,6 +209,18 @@ def returned_status(created):
 
 
 def failed_pick_status(created):
+    '''
+    generate status, historial and updated datetime for "FAILED PICK" status
+    of shipment.
+    Params:
+        - created_datetime (datetime) : datetime to create a shipment.
+    Return:
+        - current_status: (string): a current status of shipment.
+        - historial_status (list of dict): list of prevoiious status of
+            shipment.
+        - updated (datetime) : a last datetime to modify shipment.
+        - planned_dates (list of datetime) : list of datetime of planned event. default None
+    '''
     completed = created.timestamp()
     range_time = randint(500000, 12000000)
     planned = datetime.timestamp(completed + range_time)
@@ -297,7 +323,7 @@ def generate_shipment(start_date, end_date, number, start_id,
     day_range = end_date - start_date
 
     for index_num in range(number):
-        diff_range = timedelta(days=randint(0, day_range.days)) # mejorar tiempo
+        diff_range = timedelta(days=randint(0, day_range.days))
         created_datetime = (start_date + diff_range).strftime("%m/%d/%YT%H:%M:%S")
         current_status, historial_status, last_update, range_date = generate_status_historial(created_datetime)
         shipment_list.append({
