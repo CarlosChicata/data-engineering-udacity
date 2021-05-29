@@ -99,7 +99,7 @@ def cancelled_status(created):
         'status': 'CANCELLED',
         'created': cancelled_date
     }]
-    return 'CANCELLED', historial, cancelled_date
+    return 'CANCELLED', historial, cancelled_date, None
 
 
 def completed_status(created):
@@ -117,14 +117,17 @@ def completed_status(created):
     completed = created.timestamp()
     range_time = randint(500000, 12000000)
     planned = datetime.timestamp(completed + range_time)
-    range_time += randint(12000, 300000)
-    assigned = datetime.timestamp(completed + range_time)
     range_time += randint(60000, 6000000)
     picking = datetime.timestamp(completed + range_time)
     range_time += randint(600000, 12000000)
+    stocked = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 120000)
+    planned2 = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 1200000)
     delivering = datetime.timestamp(completed + range_time)
     range_time += randint(6000, 120000)
     delivered = datetime.timestamp(completed + range_time)
+    planned_dates = [planned, planned2]
     historial = [{
         'status': 'NEW',
         'created': created
@@ -132,11 +135,14 @@ def completed_status(created):
         'status': 'PLANNED',
         'created': planned
     }, {
-        'status': 'ASSIGNED',
-        'created': assigned
-    }, {
         'status': 'PICKING',
         'created': picking,
+    }, {
+        'status': 'STOCKED',
+        'created': stocked,
+    },{
+        'status': 'PLANNED',
+        'created': planned2
     }, {
         'status': 'DELIVERING',
         'created': delivering
@@ -144,7 +150,104 @@ def completed_status(created):
         'status': 'COMPLETED',
         'created': delivered
     }]
-    return 'COMPLETED', historial, delivered
+    return 'COMPLETED', historial, delivered, planned_dates
+
+
+def returned_status(created):
+    completed = created.timestamp()
+    range_time = randint(500000, 12000000)
+    planned = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 6000000)
+    picking = datetime.timestamp(completed + range_time)
+    range_time += randint(600000, 12000000)
+    stocked = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 120000)
+    planned2 = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 1200000)
+    delivering = datetime.timestamp(completed + range_time)
+    range_time += randint(6000, 120000)
+    delivered = datetime.timestamp(completed + range_time)
+    planned_dates = [planned, planned2]
+    historial = [{
+        'status': 'NEW',
+        'created': created
+    }, {
+        'status': 'PLANNED',
+        'created': planned
+    }, {
+        'status': 'PICKING',
+        'created': picking,
+    }, {
+        'status': 'STOCKED',
+        'created': stocked,
+    }, {
+        'status': 'PLANNED',
+        'created': planned2
+    }, {
+        'status': 'RETURNING',
+        'created': delivering
+    }, {
+        'status': 'RETURNED',
+        'created': delivered
+    }]
+
+    return 'RETURNED', historial, delivered, planned_dates
+
+
+def failed_pick_status(created):
+    completed = created.timestamp()
+    range_time = randint(500000, 12000000)
+    planned = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 6000000)
+    picking = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 2400000)
+    failed = datetime.timestamp(completed + range_time)
+    range_time += randint(24000000, 480000000)
+    planned2 = datetime.timestamp(completed + range_time)
+    range_time += randint(600000, 12000000)
+    picking2 = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 120000)
+    stocked = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 120000)
+    planned3 = datetime.timestamp(completed + range_time)
+    range_time += randint(60000, 1200000)
+    delivering = datetime.timestamp(completed + range_time)
+    range_time += randint(6000, 120000)
+    delivered = datetime.timestamp(completed + range_time)
+    planned_dates = [planned, planned2, planned3]
+    historial = [{
+        'status': 'NEW',
+        'created': created
+    }, {
+        'status': 'PLANNED',
+        'created': planned
+    }, {
+        'status': 'PICKING',
+        'created': picking,
+    }, {
+        'status': 'FAILED_PICK',
+        'created': failed,
+    },  {
+        'status': 'PLANNED',
+        'created': stocked,
+    }, {
+        'status': 'PICKING',
+        'created': picking2,
+    }, {
+        'status': 'STOCKED',
+        'created': stocked,
+    }, {
+        'status': 'PLANNED',
+        'created': planned3
+    }, {
+        'status': 'DELIVERING',
+        'created': delivering
+    }, {
+        'status': 'DELIVERED',
+        'created': delivered
+    }]
+
+    return 'COMPLETED', historial, delivered, planned_dates
 
 
 def generate_status_historial(created_datetime):
@@ -162,12 +265,12 @@ def generate_status_historial(created_datetime):
 
     if 0 < type_decision < 10:
         return cancelled_status(created_datetime)
-    elif 11 < type_decision < 65:
+    elif 11 < type_decision < 70:
         return completed_status(created_datetime)
+    elif 71 < type_decision < 85:
+        return failed_pick_status(created_datetime)
     else:
-        margen_time = randint(0, 3)
-        time_intents = randint(1, 3)
-        return failed_status(created_datetime, margen_time, time_intents)
+        return returned_status(created_datetime)
 
 
 def generate_shipment(start_date, end_date, number, start_id,
@@ -196,7 +299,7 @@ def generate_shipment(start_date, end_date, number, start_id,
     for index_num in range(number):
         diff_range = timedelta(days=randint(0, day_range.days)) # mejorar tiempo
         created_datetime = (start_date + diff_range).strftime("%m/%d/%YT%H:%M:%S")
-        current_status, historial_status, last_update = generate_status_historial(created_datetime)
+        current_status, historial_status, last_update, range_date = generate_status_historial(created_datetime)
         shipment_list.append({
             'created': created_datetime,
             'updated': last_update,
