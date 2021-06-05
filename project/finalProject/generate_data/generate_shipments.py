@@ -10,6 +10,7 @@ Utility methods
     - generate_tracking: generate tracking value into shipments.
     - generate_product: generate a list of name of products to send.
 '''
+from collections import defaultdict
 from datetime import timedelta, datetime
 from random import randint, shuffle
 from os import path, getcwd
@@ -315,21 +316,25 @@ def generate_shipment(start_date, end_date, number, start_id,
 	      this is required.
      Return:
       - agents (Array of dict): contain all shipment.
+      - planned_list (Array of object): contain all date this shipments
+            are planned.
     '''
     shipment_list = []
     package_size = ['ss', 's', 'm', 'l', 'xl', 'xxl']
     type_service = ['B2B', 'B2C', 'B2B-reverse', 'B2C-reverse']
     product_list = generate_product()
     day_range = end_date - start_date
+    allow_shipment_dates = list()
 
     for index_num in range(number):
         diff_range = timedelta(days=randint(0, day_range.days))
         created_datetime = (start_date + diff_range).strftime("%m/%d/%YT%H:%M:%S")
         current_status, historial_status, last_update, range_date = generate_status_historial(created_datetime)
+        tracking_code = generate_tracking()
         shipment_list.append({
             'created': created_datetime,
             'updated': last_update,
-            'tracking': generate_tracking(),
+            'tracking': tracking_code,
             'id':  start_id+index_num,
             'product': {
                 'name': product_list[randint(0, len(product_list)-1)],
@@ -341,12 +346,16 @@ def generate_shipment(start_date, end_date, number, start_id,
             'status': current_status
         })
 
+        if range_date is not None:
+            range_date = [(tracking_code, point_time) for point_time in range_date]
+            allow_shipment_dates += range_date
+
     shipment_list = assign_entity(shipment_list, associated_city,
                            default_city, 'city_id')
     shipment_list = assign_entity(shipment_list, associated_enterprise,
                            default_enteprise, 'enteprise_id')
 
-    return shipment_list
+    return shipment_list, allow_shipment_dates
 
 '''
 enterprise_client = [
