@@ -27,7 +27,7 @@ the main objective is to evolve the data reception and processing system for mus
 - [X] Data Warehouse
 - [X] Data lake
 - [x] Data pipeline
-- [ ] Capstone
+- [x] Capstone
 
 ## Info
-**Coursing Dates** : 2020/Nov/19 - Current
+**Coursing Dates** : 2020/Nov/19 - 21/Jan/20
